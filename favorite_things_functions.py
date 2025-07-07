@@ -1,8 +1,4 @@
-favorites = {
-    "dog": "Retriever",
-    "place": "My house",
-    "food": "Pizza"
-}
+import json
 
 def display_favs(favorites):
     return "Your favorites:\n" + "\n".join(f"{cat}: {fav}" for cat, fav in favorites.items())
@@ -59,10 +55,15 @@ def add_category(favorites):
 
 def main():
     playing = True
+    try:
+        with open ("favorites.json", "r") as favorites:
+            favorites = json.load(favorites)
+    except: favorites = {}
+
     while True:
         print("\nWhat would you like to do?")
         print("Options: lookup / add / update / delete / show / quit")
-        choice = input("Enter your choice: ").lower()
+        choice = input("Enter your choice: ").lower().strip()
 
         if choice == 'lookup':
             print(type_category(favorites))
@@ -79,5 +80,8 @@ def main():
             break
         else:
             print("Invalid option. Please try again.")
+    with open ("favorites.json", "w") as file:
+        json.dump(favorites, file)
 
-main()
+if __name__ == "__main__":
+    main()
